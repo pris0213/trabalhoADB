@@ -1,4 +1,4 @@
-__author__ = 'Priscila xd'
+__author__ = 'Priscila'
 from xml.dom.minidom import *
 
 print("Welcome to Reading Crime Registration")

@@ -114,7 +114,7 @@ if menuChoice == "1":
             vehicleModel.appendChild(crime.createTextNode(vehicleModelText))
             vehicle.appendChild(vehicleModel)                                      # (3RD LEVEL) VEHICLE'S CHILD
         else:
-            stolenProperty = crime.createElement("item")
+            stolenProperty = crime.createElement("stolenProperty")
             stolenPropertyText = input("Stolen item: ")
             stolenProperty.appendChild(crime.createTextNode(stolenPropertyText))
             root.appendChild(stolenProperty)                                # (2ND LEVEL) ROOT'S CHILD
@@ -205,42 +205,5 @@ if menuChoice == "1":
 
 elif menuChoice == "2":
     code = input("Digit the code of the crime: ")
-    xml = xml.dom.minidom.parse(code + ".xml")
-    crime = xml.childNodes[0]
-    if crime.tagName == "cybercrime":
-        print("Ok.")
-    elif crime.tagName == "theft":
-        print("[THEFT CASE #" + str(crime.childNodes[0].firstChild.nodeValue) + "]")
-        print("Date: " + str(crime.childNodes[1].firstChild.nodeValue))
-        print("Informer:")
-        print("\tName: " + str(crime.childNodes[2].childNodes[0].firstChild.nodeValue))
-        print("\tOccupation: " + str(crime.childNodes[2].childNodes[1].firstChild.nodeValue))
-        print("\tAddress: " + str(crime.childNodes[2].childNodes[2].firstChild.nodeValue))
-        print("\tPhone: " + str(crime.childNodes[2].childNodes[3].firstChild.nodeValue))
-        print("\tE-mail: " + str(crime.childNodes[2].childNodes[4].firstChild.nodeValue))
-        if (str(crime.childNodes[2].childNodes[5].firstChild.nodeValue) == "true"):
-            print("\tIs this person the victim? Yes.")
-        else:
-            print("\tIs this person the victim? No.")
-        print("Description: " + str(crime.childNodes[3].firstChild.nodeValue))
-        evidenceCount = 0
-        for n in crime.childNodes:
-            if (n.tagName == "evidence"):
-                evidenceCount = evidenceCount + 1
-                print("Evidence #" + str(evidenceCount) + ": " + str(n.firstChild.nodeValue))
-        print("About the crime:")
-        print("\tPlace: " + str(crime.childNodes[4 + evidenceCount].firstChild.nodeValue))
-        print("\tDescription of the suspect: " + str(crime.childNodes[5 + evidenceCount].firstChild.nodeValue))
-        if (str(crime.childNodes[6 + evidenceCount].tagName) == "vehicle"):
-            print("Item stolen: " + str(crime.childNodes[6 + evidenceCount].childNodes[0].firstChild.nodeValue))
-            vehicleCount = 0
-            if (str(crime.childNodes[6 + evidenceCount].childNodes[0].fristChild.nodeValue) != "Bicycle"):
-                vehicleCount = vehicleCount + 1
-                print("\tPlate: " + str(crime.childNodes[6 + evidenceCount].childNodes[vehicleCount].fristChild.nodeValue))
-            print("\tColour: " + str(crime.childNodes[6 + evidenceCount].childNodes[1 + vehicleCount].fristChild.nodeValue))
-            print("\tYear: " + str(crime.childNodes[6 + evidenceCount].childNodes[2 + vehicleCount].fristChild.nodeValue))
-            print("\tModel: " + str(crime.childNodes[6 + evidenceCount].childNodes[3 + vehicleCount].fristChild.nodeValue))
-        else:
-            print("Item stolen: " + str(crime.childNodes[6 + evidenceCount].fristChild.nodeValue))
-    elif crime.tagName == "homicide":
-        print("Ok.")
+    xml = xml.dom.minidom.parse("C:\\Users\\Priscila\\" + code + ".xml")
+    print(xml.childNodes[0].tagName)

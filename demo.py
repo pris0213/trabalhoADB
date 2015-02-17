@@ -143,15 +143,15 @@ if menuChoice == "1":
             witness.appendChild(witnessEmail)                               # (3RD LEVEL) WITNESS' CHILD
             ifWitness = input("Any other witness?\n[0] No\n[1] Yes\n")
     else:
-        root.tagName = "homicide"
-        suspect = crime.createElement("suspect")
-        suspectText = input("Description of the suspect: ")
-        suspect.appendChild(crime.createTextNode(suspectText))
-        root.appendChild(suspect)                                           # (2ND LEVEL) ROOT'S CHILD
+        root.tagName = "homicide"                                         # (2ND LEVEL) ROOT'S CHILD
         place = crime.createElement("address")
         placeText = input("Where did the crime happen? ")
         place.appendChild(crime.createTextNode(placeText))
-        root.appendChild(place)                                             # (2ND LEVEL) ROOT'S CHILD
+        root.appendChild(place)
+        suspect = crime.createElement("suspect")
+        suspectText = input("Description of the suspect: ")
+        suspect.appendChild(crime.createTextNode(suspectText))
+        root.appendChild(suspect)                                          # (2ND LEVEL) ROOT'S CHILD
         ifPrejudice = input("Was the crime a prejudice crime?"
                             "\n[0] No\n[1] Yes\n")
         if ifPrejudice == "1":
@@ -176,7 +176,7 @@ if menuChoice == "1":
         victimAddressText = input("Address: ")
         victimAddress.appendChild(crime.createTextNode(victimAddressText))
         victim.appendChild(victimAddress)                                   # (3RD LEVEL) VICTIM'S CHILD
-        victimBirth = crime.createElement("birthdate")
+        victimBirth = crime.createElement("date")
         victimBirthText = input("Birth date: ")
         victimBirth.appendChild(crime.createTextNode(victimBirthText))
         victim.appendChild(victimBirth)                                     # (3RD LEVEL) VICTIM'S CHILD
@@ -205,14 +205,15 @@ if menuChoice == "1":
 
 elif menuChoice == "2":
     code = input("Digit the code of the crime: ")
-    xml = xml.dom.minidom.parse(code + ".xml")
+    xml = xml.dom.minidom.parse("C:\\Users\\Priscila\\" + code + ".xml")
     crime = xml.childNodes[0]
+    print()
     if crime.tagName == "cybercrime":
-        print("Ok.")
-    elif crime.tagName == "theft":
-        print("[THEFT CASE #" + str(crime.childNodes[0].firstChild.nodeValue) + "]")
+        print("[CYBERCRIME CASE #" + str(crime.childNodes[0].firstChild.nodeValue) + "]")
+        print()
         print("Date: " + str(crime.childNodes[1].firstChild.nodeValue))
-        print("Informer:")
+        print()
+        print("About the informer:")
         print("\tName: " + str(crime.childNodes[2].childNodes[0].firstChild.nodeValue))
         print("\tOccupation: " + str(crime.childNodes[2].childNodes[1].firstChild.nodeValue))
         print("\tAddress: " + str(crime.childNodes[2].childNodes[2].firstChild.nodeValue))
@@ -222,25 +223,95 @@ elif menuChoice == "2":
             print("\tIs this person the victim? Yes.")
         else:
             print("\tIs this person the victim? No.")
-        print("Description: " + str(crime.childNodes[3].firstChild.nodeValue))
+        print()
+        print("About the crime: ")
+        print("\tDescription: " + str(crime.childNodes[3].firstChild.nodeValue))
+        print("\tCategory: " + str(crime.childNodes[4].firstChild.nodeValue))
+    elif crime.tagName == "theft":
+        print("[THEFT CASE #" + str(crime.childNodes[0].firstChild.nodeValue) + "]")
+        print()
+        print("Date: " + str(crime.childNodes[1].firstChild.nodeValue))
+        print()
+        print("About the informer:")
+        print("\tName: " + str(crime.childNodes[2].childNodes[0].firstChild.nodeValue))
+        print("\tOccupation: " + str(crime.childNodes[2].childNodes[1].firstChild.nodeValue))
+        print("\tAddress: " + str(crime.childNodes[2].childNodes[2].firstChild.nodeValue))
+        print("\tPhone: " + str(crime.childNodes[2].childNodes[3].firstChild.nodeValue))
+        print("\tE-mail: " + str(crime.childNodes[2].childNodes[4].firstChild.nodeValue))
+        if (str(crime.childNodes[2].childNodes[5].firstChild.nodeValue) == "true"):
+            print("\tIs this person the victim? Yes.")
+        else:
+            print("\tIs this person the victim? No.")
+        print()
+        print("Description of the crime: " + str(crime.childNodes[3].firstChild.nodeValue))
+        print()
         evidenceCount = 0
         for n in crime.childNodes:
             if (n.tagName == "evidence"):
                 evidenceCount = evidenceCount + 1
                 print("Evidence #" + str(evidenceCount) + ": " + str(n.firstChild.nodeValue))
+                print()
         print("About the crime:")
         print("\tPlace: " + str(crime.childNodes[4 + evidenceCount].firstChild.nodeValue))
         print("\tDescription of the suspect: " + str(crime.childNodes[5 + evidenceCount].firstChild.nodeValue))
         if (str(crime.childNodes[6 + evidenceCount].tagName) == "vehicle"):
-            print("Item stolen: " + str(crime.childNodes[6 + evidenceCount].childNodes[0].firstChild.nodeValue))
+            # print(str(crime.childNodes[6 + evidenceCount].childNodes))
+            print("\tItem stolen: " + str(crime.childNodes[6 + evidenceCount].childNodes[0].firstChild.nodeValue))
             vehicleCount = 0
-            if (str(crime.childNodes[6 + evidenceCount].childNodes[0].fristChild.nodeValue) != "Bicycle"):
+            if (str(crime.childNodes[6 + evidenceCount].childNodes[0].firstChild.nodeValue) != "Bicycle"):
                 vehicleCount = vehicleCount + 1
-                print("\tPlate: " + str(crime.childNodes[6 + evidenceCount].childNodes[vehicleCount].fristChild.nodeValue))
-            print("\tColour: " + str(crime.childNodes[6 + evidenceCount].childNodes[1 + vehicleCount].fristChild.nodeValue))
-            print("\tYear: " + str(crime.childNodes[6 + evidenceCount].childNodes[2 + vehicleCount].fristChild.nodeValue))
-            print("\tModel: " + str(crime.childNodes[6 + evidenceCount].childNodes[3 + vehicleCount].fristChild.nodeValue))
+                print("\t\tPlate: " + str(crime.childNodes[6 + evidenceCount].childNodes[vehicleCount].firstChild.nodeValue))
+            print("\t\tColour: " + str(crime.childNodes[6 + evidenceCount].childNodes[1 + vehicleCount].firstChild.nodeValue))
+            print("\t\tYear: " + str(crime.childNodes[6 + evidenceCount].childNodes[2 + vehicleCount].firstChild.nodeValue))
+            print("\t\tModel: " + str(crime.childNodes[6 + evidenceCount].childNodes[3 + vehicleCount].firstChild.nodeValue))
         else:
-            print("Item stolen: " + str(crime.childNodes[6 + evidenceCount].fristChild.nodeValue))
+            print("\tItem stolen: " + str(crime.childNodes[6 + evidenceCount].firstChild.nodeValue))
+        print()
+        witnessCount = 0
+        for n in crime.childNodes:
+            if (n.tagName == "witness"):
+                witnessCount = witnessCount + 1
+                print("Witness #" + str(witnessCount) + ": ")
+                print("\tName: " + str(crime.childNodes[6 + evidenceCount + witnessCount].childNodes[0].firstChild.nodeValue))
+                print("\tAddress: " + str(crime.childNodes[6 + evidenceCount + witnessCount].childNodes[1].firstChild.nodeValue))
+                print("\tPhone: " + str(crime.childNodes[6 + evidenceCount + witnessCount].childNodes[2].firstChild.nodeValue))
+                print("\tE-mail: " + str(crime.childNodes[6 + evidenceCount + witnessCount].childNodes[3].firstChild.nodeValue))
+                print()
     elif crime.tagName == "homicide":
-        print("Ok.")
+        print("[HOMICIDE CASE #" + str(crime.childNodes[0].firstChild.nodeValue) + "]")
+        print()
+        print("Date: " + str(crime.childNodes[1].firstChild.nodeValue))
+        print()
+        print("About the informer:")
+        print("\tName: " + str(crime.childNodes[2].childNodes[0].firstChild.nodeValue))
+        print("\tOccupation: " + str(crime.childNodes[2].childNodes[1].firstChild.nodeValue))
+        print("\tAddress: " + str(crime.childNodes[2].childNodes[2].firstChild.nodeValue))
+        print("\tPhone: " + str(crime.childNodes[2].childNodes[3].firstChild.nodeValue))
+        print("\tE-mail: " + str(crime.childNodes[2].childNodes[4].firstChild.nodeValue))
+        if (str(crime.childNodes[2].childNodes[5].firstChild.nodeValue) == "true"):
+            print("\tIs this person the victim? Yes.")
+        else:
+            print("\tIs this person the victim? No.")
+        print()
+        print("About the crime:")
+        print("\tDescription: " + str(crime.childNodes[3].firstChild.nodeValue))
+        print("\tPlace: " + str(crime.childNodes[4].firstChild.nodeValue))
+        print("\tDescription of the suspect: " + str(crime.childNodes[5].firstChild.nodeValue))
+        ifPrejudice = 0
+        if (str(crime.childNodes[6].tagName) == "prejudice"):
+            print()
+            print("\t[Prejudice crime]")
+            print("\tPrejudice: " + str(crime.childNodes[6].childNodes[0].firstChild.nodeValue))
+            print()
+            ifPrejudice = ifPrejudice + 1
+        print("\tWeapon of the crime: " + str(crime.childNodes[6 + ifPrejudice].firstChild.nodeValue))
+        print()
+        print("\tAbout the victim:")
+        print("\t\tName: " + str(crime.childNodes[7 + ifPrejudice].childNodes[0].firstChild.nodeValue))
+        print("\t\tAddress: " + str(crime.childNodes[7 + ifPrejudice].childNodes[1].firstChild.nodeValue))
+        print("\t\tBirth date: " + str(crime.childNodes[7 + ifPrejudice].childNodes[2].firstChild.nodeValue))
+        print("\t\tOccupation: " + str(crime.childNodes[7 + ifPrejudice].childNodes[3].firstChild.nodeValue))
+        print("\t\tRelationship with the suspect: "
+              + str(crime.childNodes[7 + ifPrejudice].childNodes[4].firstChild.nodeValue))
+        print()
+        print("\tCategory: " + str(crime.childNodes[8 + ifPrejudice].firstChild.nodeValue))
